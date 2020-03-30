@@ -2,12 +2,16 @@
 #include <string>
 #include <vector>
 
-std::vector<std::string> tokenize(const std::string& line) {
+// TODO:
+// Add File Support: Read the file and tokenize it.
+// Add Exception Handling
+
+std::vector<std::string> tokenize(const std::string& line, const char& delim) {
   std::vector<std::string> tokens(line.size()); 
   int index = 0;
 
   for(char c : line) {
-    if(c == ' ') index++;
+    if(c == delim) index++;
     else tokens[index] += c; 
   }
   
@@ -16,8 +20,10 @@ std::vector<std::string> tokenize(const std::string& line) {
 
 int main() {
 
-  std::string sentence = "Anup is a programmer";
-  std::vector<std::string> tokens = tokenize(sentence);
+  std::string str = "Anup is a programmer";
+  char delim = ' ';
+
+  std::vector<std::string> tokens = tokenize(str, delim);
   for(std::string token : tokens) std::cout << token << "\n";
 
   return 0;
