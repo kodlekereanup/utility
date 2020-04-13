@@ -63,8 +63,8 @@ namespace sct {
         public:
         D_Array() {
             _size = 0;
-            _max = 1;
-            arr = new int[_size];
+            _max = 0;
+            arr = new int[0];
         }
         
         // create a vector of size s
@@ -78,20 +78,20 @@ namespace sct {
         D_Array(const unsigned int& s, const int& filler); // create a vector of size s and fill it with fillers
         
         // push_back 
-        void push(int data) {
+        void push_back(int data) {
             //check if the max is reached
             if(_size == _max) {
-                int* temp = new int[2 * _max];
+                _max *= 2;
+                if(_max == 0) _max++;
+                int* temp = new int[_max];
                 
                 // copy the old array 
-                for(int i = 0; i < _max; i++) temp[i] = arr[i];
+                for(int i = 0; i < _max / 2; i++) temp[i] = arr[i];
                 delete[] arr;
-                _max *= 2;
                 arr = temp;
             }
             
-            arr[_size] = data;
-            _size++;
+            arr[++_size] = data;
         }
         
         const int& operator[] (unsigned int i) { return arr[i]; }
@@ -109,21 +109,16 @@ namespace sct {
 
 int main() {
     
-    sct::D_Array vec(3);
+    sct::D_Array v;
+    //std::vector<int> v;
     
-    for(int i = 0; i < 3; i++) vec.push(i);
-    
-    for(int i = 0; i < vec.size(); i++) std::cout << vec[i] << " ";
-    std::cout << std::endl;
-    std::cout << vec.size() << " " << vec.capacity() << "\n";
-    
-    std::vector<int> v(3); // doesnt just reserve 3 memory locations but also constructs it //
     std::cout << v.size() << " " << v.capacity() << "\n";
     
-    for(int i : v) std::cout << i << " ";
-    
-    v.push_back(0); v.push_back(1); v.push_back(2);
-    for(int i : v) std::cout << i << " ";
+    for(int i = 0; i < 16; i++) {
+        v.push_back(1); 
+        std::cout << v.size() << " " << v.capacity() << "\n";
+    }
     
     return 0;
 }
+

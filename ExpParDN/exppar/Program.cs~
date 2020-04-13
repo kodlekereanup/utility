@@ -1,0 +1,66 @@
+﻿using System;
+
+namespace exppar
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            
+        }
+    }
+
+    enum Type {
+	    Number,
+	    Space,
+	    Plus,
+	    Minus, 
+	    Slash,
+	    Star,
+	    OpenParanthesis,
+	    CloseParanthesis,
+	    EOF,
+	    Bad
+    }
+
+
+    class Token {
+
+	    public Token(Type t, int pos, string text) {
+		   type = t;
+		   position = pos;
+		   text = text;
+	    }
+
+	    public Type type    { get; }
+	    public int position { get; }
+	    public string text  { get; }
+    }
+
+    class Lexer {
+    	
+	    private readonly string _text;
+	    private int _position;
+
+	    public Lexer(string text) { _text = text; }
+
+	    private char current {
+		    get {
+			    if(_pos >= _text.Length) return '\0';
+			    else return _text[_position];
+		    }
+	    }
+
+	    private void next() { _position++; } 
+
+	    public Token nextToken() {
+
+		    if(
+
+
+			
+
+	    }
+    
+    } 
+}

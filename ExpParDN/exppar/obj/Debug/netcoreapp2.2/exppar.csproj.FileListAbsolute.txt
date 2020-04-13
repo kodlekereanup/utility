@@ -1,0 +1,11 @@
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\bin\Debug\netcoreapp2.2\exppar.deps.json
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\bin\Debug\netcoreapp2.2\exppar.runtimeconfig.json
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\bin\Debug\netcoreapp2.2\exppar.runtimeconfig.dev.json
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\bin\Debug\netcoreapp2.2\exppar.dll
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\bin\Debug\netcoreapp2.2\exppar.pdb
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\obj\Debug\netcoreapp2.2\exppar.csprojAssemblyReference.cache
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\obj\Debug\netcoreapp2.2\exppar.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\obj\Debug\netcoreapp2.2\exppar.AssemblyInfoInputs.cache
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\obj\Debug\netcoreapp2.2\exppar.AssemblyInfo.cs
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\obj\Debug\netcoreapp2.2\exppar.dll
+C:\Users\User\Documents\dev\utility\ExpParDN\exppar\obj\Debug\netcoreapp2.2\exppar.pdb

@@ -1,0 +1,411 @@
+1) Reversing a string
+#include<stdio.h>
+#include<conio.h>
+#include<stdlib.h>
+#include<string.h>
+2)Checking Validity of an expression    
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#define MAX 30
+int top=-1;
+int stack[MAX];
+void push(char);
+char pop();
+int match(char a,char b);
+void main()
+{
+	char str[MAX];
+	int valid;
+	printf("\n enter a algebric expression \n");
+	gets(str);
+	//scanf_s("%c",&str);
+	valid=check(str);
+	if(valid==1)
+	printf("\nis a valid expression\n");
+	else
+	printf("\nis a invalid expression\n");
+	_getch();
+}
+void push(char exp)
+{
+	if(top==MAX-1)
+	{
+	printf("\n overflow\n");
+	return;
+    }
+		top++;
+		stack[top]=exp;
+}
+char pop()
+{
+	if(top==-1)
+	{
+	printf("\n underflow \n");
+    }
+		return(stack[top--]);
+}
+int match(char a,char b)
+{
+	if(a=='{'&&b=='}')
+	return 1;
+	if(a=='['&&b==']')
+	return 1;
+	if(a=='('&&b==')')
+	return 1;
+	return 0;
+}
+int check(char exp[MAX])
+{
+	char temp;
+	int i;
+	for(i=0;i<strlen(exp);i++)
+	{
+	
+	if(exp[i]=='{'||exp[i]=='['||exp[i]=='(')
+	push(exp[i]);
+	if(exp[i]=='}'||exp[i]==']'||exp[i]==')')
+		if(top==-1)
+	   {
+		printf("\n right parantheses are more than left parantheses\n");
+		return 0;
+	   }
+	   else
+	   {
+	   	  temp=pop();
+	   	  if(!match(temp,exp[i]))
+	   	  {
+	   	  	printf("\n mismatched parantheses are:\n");
+	   	  	printf("\n%c-----%c\n",temp,exp[i]);
+	   	  	return 0;
+		  }
+	   }
+	}
+	if(top==-1)
+	{
+		printf("\n balanced expression\n");
+		return 1;
+	}
+	else
+	{
+		printf("\nleft parantheses is more than right parantheses\n");
+		return 0;
+	}
+}
+Output
+ enter a algebric expression
+A(B+C)*D
+
+ balanced expression
+
+is a valid expression
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3) Convert infix to post fix expression              
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#include<math.h>
+#include<stdlib.h>
+#define MAX 50
+#define BLANK ' '
+#define TAB '\t'
+void push(int symbol);
+int pop();
+void infix_to_postfix();
+int priority(char symbol);
+int isempty();
+int white_space(char);
+char infix[MAX],postfix[MAX];
+int stack[MAX];
+int top;
+void main()
+{
+	int value;
+	top=-1;
+	printf("\nenter infix : ");
+	gets(infix);
+	infix_to_postfix();
+	printf("\npostfix: %s \n",postfix);
+	_getch();
+}
+void infix_to_postfix()
+{
+	int i,p=0;
+	char next;
+	char symbol;
+	for(i=0;i<strlen(infix);i++)
+	{
+		symbol=infix[i];
+		if(!white_space(symbol))
+		{
+			switch(symbol)
+			{
+				case '(':
+					push(symbol);
+					break;
+					case ')':
+						while((next=pop())!='(')
+						postfix[p++]=next;
+						break;
+						case '+':
+							case '-':
+								case '*':
+									case '/':
+										case '%':
+											case '^':
+												while(!isempty()&&priority(stack[top])>=priority(symbol))
+												postfix[p++]=pop();
+												push(symbol);
+												break;
+												default:
+													postfix[p++]=symbol;
+				
+			}
+		}
+	}
+	while(!isempty())
+	postfix[p++]=pop();
+	postfix[p]='\0';
+}
+int priority(char symbol)
+{
+	switch(symbol)
+	{
+		case '(':
+			return 0;
+			case '+':
+				case '-':
+					return 1;
+					case '*':
+						case '/':
+							case '%':
+								return 2;
+								case '^':
+									return 3;
+									default:
+										return 0;
+					
+	}
+}
+void push(int symbol)
+{
+	if(top>MAX)
+	{
+		printf("\nstack overflow\n");
+	}
+	stack[++top]=symbol;
+}
+int pop()
+{
+	if(isempty())
+	{
+		printf("\n stack underflow \n");
+	}
+	return(stack[top--]);
+}
+int isempty()
+{
+	if(top==-1)
+	return 1;
+	else
+	return 0;
+}
+int white_space(char symbol)
+{
+	if(symbol==BLANK||symbol==TAB)
+	return 1;
+	else
+	return 0;
+}
+OUTPUT
+
+enter infix : A+(B-C)+D
+
+postfix: ABC-+D+
+
+4) Evaluating Postfix expression       
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+#include<math.h>
+#include<stdlib.h>
+#define MAX 50
+#define BLANK ' '
+#define TAB '\t'
+void push(long int symbol);
+long int pop();
+void infix_to_postfix();
+int priority(char symbol);
+int isempty();
+long int eval_post();
+int white_space(char);
+char infix[MAX], postfix[MAX];
+int stack[MAX];
+int top;
+void main()
+{
+	long int value;
+	top = -1;
+	printf("\nenter infix : ");
+	gets_s(infix);
+	infix_to_postfix();
+	printf("\npostfix: %s \n", postfix);
+	value = eval_post();
+	printf("\n value of post fix is: %d ", value);
+	_getch();
+}
+void infix_to_postfix()
+{
+	unsigned int i, p = 0;
+	char next;
+	char symbol;
+	for (i = 0; i<strlen(infix); i++)
+	{
+		symbol = infix[i];
+		if (!white_space(symbol))
+		{
+			switch (symbol)
+			{
+			case '(':
+				push(symbol);
+				break;
+			case ')':
+				while ((next = pop()) != '(')
+					postfix[p++] = next;
+				break;
+			case '+':
+			case '-':
+			case '*':
+			case '/':
+			case '%':
+			case '^':
+				while (!isempty() && priority(stack[top]) >= priority(symbol))
+					postfix[p++] = pop();
+				push(symbol);
+				break;
+			default:
+				postfix[p++] = symbol;
+
+			}
+		}
+	}
+	while (!isempty())
+		postfix[p++] = pop();
+	postfix[p] = '\0';
+}
+int priority(char symbol)
+{
+	switch (symbol)
+	{
+	case '(':
+		return 0;
+	case '+':
+	case '-':
+		return 1;
+	case '*':
+	case '/':
+	case '%':
+		return 2;
+	case '^':
+		return 3;
+	default:
+		return 0;
+
+	}
+}
+void push(long int symbol)
+{
+	if (top>MAX)
+	{
+		printf("\nstack overflow\n");
+	}
+	stack[++top] = symbol;
+}
+long int pop()
+{
+	if (isempty())
+	{
+		printf("\n stack underflow \n");
+	}
+	return(stack[top--]);
+}
+int isempty()
+{
+	if (top == -1)
+		return 1;
+	else
+		return 0;
+}
+int white_space(char symbol)
+{
+	if (symbol == BLANK || symbol == TAB)
+		return 1;
+	else
+		return 0;
+}
+long int eval_post()
+{
+	long int a, b, temp, result;
+	unsigned int i;
+	for (i = 0; i<strlen(postfix); i++)
+	{
+		if (postfix[i] <= '9'&& postfix[i] >= '0')
+			push(postfix[i] - '0');
+		else
+		{
+			a = pop();
+			b = pop();
+			switch (postfix[i])
+			{
+			case '+':
+				temp = b + a;
+				break;
+			case '-':
+				temp = b - a;
+				break;
+			case '*':
+				temp = b*a;
+				break;
+			case '/':
+				temp = b / a;
+				break;
+			case '%':
+				temp = b%a;
+				break;
+			case '^':
+				temp = pow(b, a);
+
+			}
+			push(temp);
+		}
+	}
+	result = pop();
+	return result;
+}
+
+OUTPUT:
+
+enter infix : 2*4(4+2)-3
+
+postfix: 2442+*3-
+
+ value of post fix is: 21
