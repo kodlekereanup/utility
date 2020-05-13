@@ -63,7 +63,7 @@ template <class T>
 void Stack<T> :: push(T data) {
     if(_top == _capacity - 1) {
         _capacity *= 2;
-        if(_size == 0) _capacity++;
+        if(_capacity == 0) _capacity++;
         T* new_buffer = new T[_capacity];
         //copy the old array
         for(int i = 0; i < _size; i++) new_buffer[i] = _buffer[i];
@@ -121,3 +121,6 @@ int main() {
     std::cout << '\n' << s.top();
     return 0;
 }
+// TODO: After top becomes -1, destoy / free the capacity
+//       The capacity remains the same even after the stack
+//       becomes empty
