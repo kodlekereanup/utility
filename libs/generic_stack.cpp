@@ -25,7 +25,7 @@ class Stack {
     Stack(unsigned int);
     ~Stack();
 
-    void push(T);
+    void push(const T&);
     T pop(); // pops and returns the popped element
 
     constexpr unsigned int size();
@@ -60,7 +60,7 @@ Stack<T> :: Stack(unsigned int s) :
     _size(s), _buffer(new T[s]) {}
 
 template <class T>
-void Stack<T> :: push(T data) {
+void Stack<T> :: push(const T& data) {
     if(_top == _capacity - 1) {
         _capacity *= 2;
         if(_capacity == 0) _capacity++;
