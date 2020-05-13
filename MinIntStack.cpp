@@ -56,7 +56,7 @@ void Stack :: display() {
 
 int main() {
     
-    Stack s(2);
+    Stack s;
     
     s.push(14);
     s.push(11);

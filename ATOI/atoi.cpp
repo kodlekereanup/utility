@@ -28,9 +28,10 @@ float atoi(std::string character) {
     }
           
     int k = character.size(), p = 0, f = 0;
-        
+    auto dot = character.find('.');
+    
     if(character[0] == '-') { neg = true; k--; }
-    if(character.find('.') != std::string::npos) { frac = true; f = character.find('.'); k--; }
+    if(dot != std::string::npos) { frac = true; f = dot; k--; }
     
     for(char c : character) {
         if(c == '-' || c == '.') continue;
