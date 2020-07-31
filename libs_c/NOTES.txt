@@ -1,0 +1,106 @@
+Generic Data Structures and Algorithms Library in C for C
+Thread Safe yada yada yada
+
+Vector:
+# C++
+
+Initially, when the vector is made, it's size and capacity is 0
+std::vector<int> vec; --> (size, cap) = (0, 0)
+
+If constructed with an integer,
+std::vector<int> vec(5) --> (size, cap) = (5, 5)
+fills it with zeros
+if push_back is used, it doesn't change the initial ones
+
+0 0 0 0 0 1 2 3 4 5 ...
+
+push_back grows the capacity if size == capacity;
+
+
+# C
+
+Create a variadic make_vector() function that makes a vector from those arguments and returns it.
+
+# TODO
+
+erase
+clear
+destroy / free
+at
+swap
+assign
+emplace
+emplace_back
+pop_back
+pop_front
+push_front
+push_back
+remove
+resize
+reserve
+shrink_to_fit
+reverse
+front
+back
+copy
+
+empty?
+insert
+
+any
+all
+
+# TODO:
+Currently, the vector_ api only works on int. So the first thing we need is generic and type safe data structures.
+Secondly, the function calls need some kind of a way to show optional arguments
+
+There may be a couple of workarounds for this.
+We could maybe use a macro that wraps the function with some information and dispatches accordingly.
+
+Maybe use some kind of lookup table (function pointer table) and wrap that in the macro.
+
+We could use __VA_ARGS__ (varargs) with functions and macros to somehow manually 'simulate' the behaviour we want.
+
+Optional arguments are difficult because the user should be able to send a literal constant instead of storing it in another variable and sending the address of the variable (cause the core functions could use pointers to simulate the behaviour of optional args).
+
+# API DESIGN DECISIONS
+
+vector_alloc() function can take the element size. But how do I initialize it?
+
+Obviously the first thing I need is generic data structures and algorithms.
+But which way should I choose? There are many
+ - Macros stubs
+ - Entire macros (like STB)
+ - Generic Macro in C99
+ - Flexible Array member in a struct
+ - Zero Length array member
+ - Unions
+ - Structs
+ - Enums
+ - Typedefs
+ - void*
+ - bunch of other shit I don't even know
+
+I should obviously make it opaque. But how does this play with the client side of
+the library? How will I use it?
+
+If I do make a opaque library, I will have to pass pointers to Vector. How does this affect when I
+need to make a vector of pointers?
+
+# MY CONFUSION WITH void* AND void**
+
+Since type* var where type belongs to anything but void creates an array of that type, I thought void* var creates an array of void.
+I am obviously wrong.
+int* arr creates an array of ints,
+void* arr does not create an array of voids. It is capacle of holding a single
+element. To create a generic-array, we need void**.
+The void* signifies the genericity, and the second '*' signifies that it's an array.
+
+Should I use function pointers to emulate member functions or just use normal functions?
+
+PRIORITY:
+
+- Write a fully functioning push_back function.
+- Make the Vector support generic data structures.
+- Make the functions take generic data.
+- Use size_t incase of NULL as an optional argument.
