@@ -98,9 +98,30 @@ The void* signifies the genericity, and the second '*' signifies that it's an ar
 
 Should I use function pointers to emulate member functions or just use normal functions?
 
+How to make it hold custom types
+
 PRIORITY:
 
 - Write a fully functioning push_back function.
 - Make the Vector support generic data structures.
 - Make the functions take generic data.
 - Use size_t incase of NULL as an optional argument.
+
+Exceptions
+Iterators
+Containers
+Standard Library
+Standard Template Library
+Algorithms
+Generics
+Logger
+Error handler
+Array transforms like python
+Default Arguments 
+Optional Arguments 
+Constructor and Destructor
+Inheritance
+Polymorphism
+Encapsulation
+Smart Pointer
+

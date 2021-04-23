@@ -2,6 +2,7 @@
 #define KLIBC_H
 
 #include <stdio.h>
+#include <stdbool.h>
 
 // ----------------------------------------- MACROS --------------------------------------
 #define DEBUG 1
@@ -20,19 +21,40 @@ void    vector_dealloc(Vector* vec);
 //TODO: Make these generic (mostly all 'data fields')
 
 void vector_init(Vector* vec, const unsigned int capacity, const int filler);
+void vector_reserve(Vector* vec, const unsigned int capacity);
+
+// INSERT functions
 void vector_append(Vector* vec, const int data);
 void vector_insert(Vector* vec, const unsigned int index, const int data);
 void vector_push_back(Vector* vec, const int data); // calls insert
+
+// DELETE functions
+void vector_pop_front(Vector* vec);
+void vector_pop_back(Vector* vec);
+void vector_pop_key(Vector* vec, int key);
+
+// SEARCH
+void vector_lsearch_key(const Vector* vec, int key);
+void vector_bsearch_key(const Vector* vec, int key); // only works if vec->buffer[] is sorted
+
+// SORT
+void vector_bbsort(Vector* vec, bool comparator); // comparator should be a callback or a function pointer
+void vector_qsort(Vector* vec, bool comparator);
+
 void vector_display(const Vector* vec);
+void vector_display_range(const Vector* vec, int begin, int end);
+
 void vector_create_from_array(Vector* vec, const int* array, const unsigned int array_size);
 void vector_extract_array(const Vector* vec, int* array);
 
 // TODO: This should return the type of the element in the vector.
 int vector_at(const Vector* vec, const int index);
 
+long long vector_sum(const Vector* vec); // should accept only integer and floating point arrays
 
 size_t vector_size(const Vector* vec);
 size_t vector_capacity(const Vector* vec);
+size_t vector_item_size(const Vector* vec);
 // ----------------------------- LIBRARY CORE ---------------------------------------
 
 /*

@@ -1,8 +1,8 @@
-klibc: klibc.o
-	gcc klibc.o -o klibc
+klibc: src/klibc.o
+	gcc src/klibc.o -o ../klibc
 
-klibc.o: klibc.c
-	gcc -c klibc.c
+klibc.o: src/klibc.c
+	gcc -c src/klibc.c
 
 .PHONY: clean
 

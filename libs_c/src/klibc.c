@@ -1,5 +1,7 @@
 #include "../includes/klibc.h"
+#include "../includes/basic_functions.h"
 #include <stdlib.h>
+#include <assert.h>
 
 // --------------------------------- STRUCT DEFS ---------------------------
 typedef struct _Vector {
@@ -40,7 +42,14 @@ void vector_dealloc(Vector* vec) {
 
 // --------------------------------- FUNCTION DEFS -------------------------
 void vector_init(Vector* vec, const unsigned int capacity, const int filler) {
-    vector_init_core(vec, &capacity, &filler);
+  vector_init_core(vec, &capacity, &filler);
+}
+
+// adds capacity to vector, but has nothing in the vector
+// using push_back on this fills from the beginning, unlike the constructor
+void vector_reserve(Vector* vec, const unsigned int capacity) {
+  vec->capacity = max_int(vec->capacity, capacity);
+  vec->buffer = malloc(vec->capacity * vec->item_size);
 }
 
 // TODO: Very bad code, find a better way to do this
@@ -80,8 +89,8 @@ int vector_init_core(Vector* vec, const unsigned int* capacity, const int* fille
         vec->capacity = *capacity;
         vec->buffer = malloc((vec->item_size) * (*capacity));
         if(!vec->buffer) {
-            printf("\n Could not malloc \n");
-            return -1;
+          printf("\n Could not malloc \n");
+          return -1;
         }
 
         for(int i = 0; i < *capacity; ++i) vec->buffer[i] = 0;
@@ -95,31 +104,63 @@ void vector_create_from_array(Vector* vec, const int* array, const unsigned int 
   }
 
   vector_init(vec, array_size, 0);
-    // what if I pass an already existing array?
-    for(int i = 0; i < array_size; ++i) vector_push_back(vec, array[i]);
+  // what if I pass an already existing array?
+  for(int i = 0; i < array_size; ++i) vec->buffer[i] = array[i];
 }
 
-// FIXME: vector_push_back is not inserting any kind of data in the buffer.
-//        my doubt is that it's because we haven't allocated the array
-//        inside the struct vector and hence it's always zero?
-void vector_push_back(Vector* vec, const int data) {
-    static int i = 0;
-    // vec->buffer[i] = *(int*)malloc(sizeof(data));
-    vec->buffer[i++] = data;
+void vector_push_back(Vector* vec, int data) {
+  // check if the vector is sufficiently long to hold new elements, 
+  // if not, reallocate it to double the original size.
+  if(vec->size == vec->capacity) {
+    vec->capacity *= 2;
+    if(vec->capacity == 0) vec->capacity = 1;
+    vec->buffer = realloc(vec->buffer, (vec->item_size) * (vec->capacity));
+  }
+  
+  vec->buffer[vec->size++] = data;
 }
 
 //TODO:
 // Create a macro that takes in the vector object and the format and type to make a generic
 // printf function. Also try to 'init' it at vector_init() to be the type declared at initialization.
 void vector_display(const Vector* vec) {
-    printf("\n");
-    for(int i = 0; i < vector_size(vec); ++i) printf("%d ", vec->buffer[i]);
-    printf("\n");
+
+  if(vector_size(vec) == 0) {
+    printf("\n [LengthError]: Vector size is 0 \n");
+    return;
+  }
+
+  printf("\n");
+  for(int i = 0; i < vector_size(vec); ++i) printf(" %d", vec->buffer[i]);
+  printf("\n");
+}
+
+// displays a part of the vector
+void vector_display_range(const Vector* vec, int begin, int end) {
+
+  // check if vector exists
+  if(vector_size(vec) == 0) {
+    printf("\n [LengthError]: Vector size is 0. \n");
+    return;
+  }
+
+  // check if 'begin' and 'end' lie in the range of the vector
+  if(!(begin >= 0 && end < vector_size(vec))) {
+    printf("\n [RangeError]: Invalid range. Please check again. \n");
+    return;
+  }
+
+  printf("\n");
+  for(int i = begin; i < end; ++i) printf(" %d", vec->buffer[i]);
+  printf("\n");
+  
 }
 
 size_t vector_size(const Vector* vec) { return vec->size; }
 
 size_t vector_capacity(const Vector* vec) { return vec->capacity; }
+
+size_t vector_item_size(const Vector* vec) { return vec->item_size; }
 
 void vector_extract_array(const Vector* vec, int* array) {
   for(int i = 0; i < vector_size(vec); ++i) {
@@ -127,6 +168,9 @@ void vector_extract_array(const Vector* vec, int* array) {
   }
 }
 
+/*
+ * Should ideally return a value of the same type
+ */
 int vector_at(const Vector* vec, const int index) {
   int size = vector_size(vec);
   if(index < 0 && index >= (size * -1)) {
@@ -139,4 +183,11 @@ int vector_at(const Vector* vec, const int index) {
   }
 }
 
+long long vector_sum(const Vector* vec) {
+  long long sum = 0;
 
+  // do some type checks
+  // if(type_of(vec) != INT || type_of(vec) != FLOAT) return INVALIDTYPE
+  for(int i = 0; i < vec->size; ++i) sum += vec->buffer[i];
+  return sum;
+}
